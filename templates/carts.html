@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% set user = user.results|first  %}
+<h2>{{ user.login_name }} Has {{ carts.count }} carts.</h2>
+<ul>
+    <li>
+        {% for cart in carts.results %}
+           cart <a href="">{{ cart.cart_id }}</a> has {{ cart.listings|length }} totalling {{ cart.total }}
+        {% endfor %}
+    </li>
+</ul>
+{% endblock %}
