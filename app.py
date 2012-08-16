@@ -15,7 +15,7 @@ Put CONSUMER_KEY and CONSUMER_SECRET from etsy.com api sign up proccess in a
 file called settings.py:
 
 CONSUMER_KEY = '<your key>'
-CONSUMER_SECTRET = '<your secret>'
+CONSUMER_SECRET = '<your secret>'
 """
 
 app.config.from_object('settings')
@@ -56,6 +56,11 @@ def login():
     callback_url = url_for('oauth_authorized', next=next_url, _external=True)
     return etsy.authorize(callback=callback_url)
 
+@app.route("/logout")
+def logout():
+    session.pop('etsy_token')
+    return redirect(url_for('index'))
+
 @app.route("/authorized")
 @etsy.authorized_handler
 def oauth_authorized(resp):
@@ -77,7 +82,7 @@ def show_cart_contents():
     "Grab some cart and user information"
     user_resp = etsy.get('users/__SELF__/') # __SELF__ is replaced with oauth'd userid by API
     cart_resp = etsy.get('users/__SELF__/carts/')
-    return render_template('carts.html', carts=cart_resp.data, user=user_resp.data)
+    return render_template('carts.html', carts=cart_resp.data, user=user_resp.data, logout_url=url_for('logout'))
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0")
