@@ -6,7 +6,7 @@
 <ul>
     <li>
         {% for cart in carts.results %}
-           cart <a href="">{{ cart.cart_id }}</a> has {{ cart.listings|length }} totalling {{ cart.total }}
+           cart <a href="">{{ cart.cart_id }}</a> has {{ cart.listings|length }} item totalling {{ cart.total }}
         {% endfor %}
     </li>
 </ul>
